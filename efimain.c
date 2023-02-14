@@ -2,9 +2,6 @@
 #include "efi.h"
 #include "efilib.h"
 
-//#include <string.h>     // strcmp()   For some reason, strcmp() will not work. Had to write my own.
-
-
 unsigned long long strlen(const char* str)
 {
 	const char* strCount = str;
@@ -24,11 +21,9 @@ int m_strcmp(char* a, char* b)
 	return 0;
 }
 
-
-
 typedef long long INTN;
 
-UINT64 CompareGuid(EFI_GUID* guid1, EFI_GUID* guid2)
+UINT64 CompareGuid(EFI_GUID* guid1, EFI_GUID* guid2)  // Might need fixing, I am not sure yet.
 {
 	// I originally got this from the GNU-EFI
 	UINT32 *g1, *g2;
@@ -59,9 +54,6 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 
  	ReadFile(u"EFI\\BOOT\\loader.bin");
 
-	// The RSDP I'll add in next video.  Screw it, I'll see if I can add it now. It technically should work without the GDT since we are still in EFI land. The GDT is definately a next video thing.
-	// As you can see, it's quite extensive and we can access ANY hardware once this is setup and sent to our loader.
-	
 	conOut->OutputString(conOut, u"Grabbing RSDP ...\r\n");
 
 	EFI_CONFIGURATION_TABLE* configTable = SystemTable->ConfigurationTable;
@@ -116,16 +108,11 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	bi.MMapDescriptorSize    = DescriptorSize;
 	bi.rsdp                  = tempRSDP;
 	
-//	conOut->SetAttribute(conOut, EFI_WHITE);
-//	conOut->OutputString(conOut, u"Jumping to Loader ...\r\n");
-
     UINT8* loader = (UINT8*)OSBuffer;
     void (*LoaderFileBin)(BLOCKINFO*) = ((__attribute__((ms_abi)) void (*)(BLOCKINFO*) ) &loader[ENTRY_POINT]);
 	
 	// Exit EFI here.
 	SystemTable->BootServices->ExitBootServices(ImageHandle, MapKey);
-	
-	// If that works, we officially are on our own with the loader.
 	
 	LoaderFileBin(&bi);
 
