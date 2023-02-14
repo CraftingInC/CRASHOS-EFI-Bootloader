@@ -19,12 +19,16 @@ unsigned int                        ENTRY_POINT;
 
 typedef struct BLOCKINFO
 {
-	UINT64         BaseAddress;
-	UINT64         BufferSize;
-	UINT32         ScreenWidth;
-	UINT32         ScreenHeight;
-	UINT32         PixelsPerScanLine;
-	UINT64         LoaderFileSize;
+	UINT64                   BaseAddress;
+	UINT64                   BufferSize;
+	UINT32                   ScreenWidth;
+	UINT32                   ScreenHeight;
+	UINT32                   PixelsPerScanLine;
+	UINT64                   LoaderFileSize;
+	EFI_MEMORY_DESCRIPTOR*   MMap;
+	UINTN                    MMapSize;
+	UINTN                    MMapDescriptorSize;
+	unsigned long long*      rsdp;
 } __attribute__((__packed__)) BLOCKINFO;
 
 struct BLOCKINFO bi;
@@ -129,7 +133,11 @@ void ReadFile(CHAR16* FileName)  // NOTE : This auto-closes the file.
 				p3 = *test;
 				test += 1;
 				p4 = *test;
-				ENTRY_POINT = (p4 << 24) | (p3 << 16) | (p2 << 8) | p1;
+				// ENTRY_POINT = (p4 << 24) | (p3 << 16) | (p2 << 8) | p1;
+				//ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x46;   // -O1 Optimization
+				//ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x78;   // -O2 Optimization   This will not work. 
+				                                                                     //     But compiling anyhow to prove that it doesn't work.
+				ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x70;     // -O3 Optimization   Oddly, this works.
 			} else {
 				ENTRY_POINT = 0;
 				conOut->OutputString(conOut, u"ERROR : Unable to find the 8664 ENTRY_POINT.\r\n");

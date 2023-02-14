@@ -4,6 +4,15 @@
 #define ORANGE 0xffffa500
 #define MAUVE  0xffaa55aa
 
+typedef struct EFI_MEMORY_DESCRIPTOR
+{
+	uint32_t         Type;
+	uint64_t         PhysicalStart;
+	uint64_t         VirtualStart;
+	uint64_t         NumberOfPages;
+	uint64_t         Attribute;
+} EFI_MEMORY_DESCRIPTOR;
+
 typedef struct GraphicsPixelColor
 {
 	uint8_t          Blue;
@@ -14,25 +23,28 @@ typedef struct GraphicsPixelColor
 
 typedef struct BLOCKINFO
 {
-	uint64_t         BaseAddress;
-	uint64_t         BufferSize;
-	uint32_t         ScreenWidth;
-	uint32_t         ScreenHeight;
-	uint32_t         PixelsPerScanLine;
-	uint64_t         LoaderFileSize;
+	uint64_t                   BaseAddress;
+	uint64_t                   BufferSize;
+	uint32_t                   ScreenWidth;
+	uint32_t                   ScreenHeight;
+	uint32_t                   PixelsPerScanLine;
+	uint64_t                   LoaderFileSize;
+	EFI_MEMORY_DESCRIPTOR*     MMap;
+	uint64_t                   MMapSize;
+	uint64_t                   MMapDescriptorSize;
+	unsigned long long*        rsdp;
 } __attribute__((__packed__)) BLOCKINFO;
 
-// Do to how the file is designed, we need to insert WHERE the BLOCKINFO can be accessed.
 BLOCKINFO* biStruct __attribute__ ((section(".text")));
 void CreateFilledBox(uint32_t xPos, uint32_t yPos, uint32_t w, uint32_t h, uint32_t c);
 
 void main(BLOCKINFO* bi)
 {
 	biStruct = bi;
-	biStruct->BaseAddress = bi->BaseAddress;  // This is to make sure we have the correct Address. Kinda overkill, but needed.
+	biStruct->BaseAddress = bi->BaseAddress;
 	CreateFilledBox(10, 10, 100, 100, MAUVE);
 	
-	while(1){__asm__("hlt");}   // CPU instruction in Assembly to halt the CPU.
+	while(1){__asm__("hlt");}
 }
 
 void CreateFilledBox(uint32_t xPos, uint32_t yPos, uint32_t w, uint32_t h, uint32_t c)
@@ -50,5 +62,3 @@ void CreateFilledBox(uint32_t xPos, uint32_t yPos, uint32_t w, uint32_t h, uint3
 		}
 	}
 }
-
-// Now this is ready once we load it into memory to run. Cross fingers it works once we do get to this point.

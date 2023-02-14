@@ -1,0 +1,60 @@
+
+ -O1
+
+loader.bin:     file format pe-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <CreateFilledBox>:
+   0:	53                   	push   %rbx
+   1:	89 cb                	mov    %ecx,%ebx
+   3:	44 8b 5c 24 30       	mov    0x30(%rsp),%r11d
+   8:	46 8d 14 01          	lea    (%rcx,%r8,1),%r10d
+   c:	41 01 d1             	add    %edx,%r9d
+   f:	73 2c                	jae    3d <CreateFilledBox+0x3d>
+  11:	5b                   	pop    %rbx
+  12:	c3                   	ret    
+  13:	48 8b 0d 66 00 00 00 	mov    0x66(%rip),%rcx        # 80 <biStruct>
+  1a:	41 89 d0             	mov    %edx,%r8d
+  1d:	44 0f af 41 18       	imul   0x18(%rcx),%r8d
+  22:	45 8d 04 00          	lea    (%r8,%rax,1),%r8d
+  26:	48 8b 09             	mov    (%rcx),%rcx
+  29:	46 89 1c 81          	mov    %r11d,(%rcx,%r8,4)
+  2d:	83 c0 01             	add    $0x1,%eax
+  30:	41 39 c2             	cmp    %eax,%r10d
+  33:	73 de                	jae    13 <CreateFilledBox+0x13>
+  35:	83 c2 01             	add    $0x1,%edx
+  38:	41 39 d1             	cmp    %edx,%r9d
+  3b:	72 d4                	jb     11 <CreateFilledBox+0x11>
+  3d:	89 d8                	mov    %ebx,%eax
+  3f:	44 39 d3             	cmp    %r10d,%ebx
+  42:	76 cf                	jbe    13 <CreateFilledBox+0x13>
+  44:	eb ef                	jmp    35 <CreateFilledBox+0x35>
+
+0000000000000046 <main>:
+  46:	53                   	push   %rbx
+  47:	48 83 ec 30          	sub    $0x30,%rsp
+  4b:	48 89 cb             	mov    %rcx,%rbx
+  4e:	e8 00 00 00 00       	call   53 <main+0xd>
+  53:	48 89 1d 26 00 00 00 	mov    %rbx,0x26(%rip)        # 80 <biStruct>
+  5a:	c7 44 24 20 aa 55 aa 	movl   $0xffaa55aa,0x20(%rsp)
+  61:	ff 
+  62:	41 b9 64 00 00 00    	mov    $0x64,%r9d
+  68:	41 b8 64 00 00 00    	mov    $0x64,%r8d
+  6e:	ba 0a 00 00 00       	mov    $0xa,%edx
+  73:	b9 0a 00 00 00       	mov    $0xa,%ecx
+  78:	e8 83 ff ff ff       	call   0 <CreateFilledBox>
+  7d:	f4                   	hlt    
+  7e:	eb fd                	jmp    7d <main+0x37>
+
+0000000000000080 <biStruct>:
+	...
+  88:	90                   	nop
+  89:	90                   	nop
+  8a:	90                   	nop
+  8b:	90                   	nop
+  8c:	90                   	nop
+  8d:	90                   	nop
+  8e:	90                   	nop
+  8f:	90                   	nop
