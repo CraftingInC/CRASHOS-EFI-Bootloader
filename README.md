@@ -11,4 +11,7 @@
 **WARNING**  
     I take no responsibility of what you do with this code. You use the code at your own risk. You have been warned !  
 	
+	CURRENT PROGRESS
+	![Current Progress](progress.png)  
+	
 	
