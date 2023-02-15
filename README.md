@@ -4,8 +4,9 @@
     This is the source code to the EFI Bootloader youtube series.  
 	**YOUTUBE :** https://www.youtube.com/watch?v=4CxOYxCjKDM&list=PLwH94sFU_ljN4ENYWT14e1oLRUKwAZVtp  
 	
-    Use this link to grab the code needed to create the drive.hdd file.  
-    https://github.com/CraftingInC/UEFI-GPT-image-creator  
+	
+Use this link to grab the code needed to create the drive.hdd file.  
+https://github.com/CraftingInC/UEFI-GPT-image-creator  
   
   
   
