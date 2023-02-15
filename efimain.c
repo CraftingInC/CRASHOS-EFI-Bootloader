@@ -94,7 +94,7 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	conOut = SystemTable->ConOut;
 	conOut->Reset(conOut, 1);
 
-    InitGraphics();
+	InitGraphics();
 
 	InitVolume();
 
@@ -125,13 +125,13 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 		configTable++;
 	}
 
-    conOut->SetAttribute(conOut, EFI_BROWN);
-    conOut->OutputString(conOut, u"\r\nNOTE : Only the last RSDP is saved. It MIGHT be a problem.\r\n\r\n");
+	conOut->SetAttribute(conOut, EFI_BROWN);
+	conOut->OutputString(conOut, u"\r\nNOTE : Only the last RSDP is saved. It MIGHT be a problem.\r\n\r\n");
 	conOut->SetAttribute(conOut, EFI_GREEN);
-    conOut->OutputString(conOut, u"Grabbing MMAP ...\r\n");
+	conOut->OutputString(conOut, u"Grabbing MMAP ...\r\n");
 
-    // NOTE : Do NOT use any conOut from this point on. It messes up the MMap.
-    UINTN                   MemoryMapSize = 0;
+	// NOTE : Do NOT use any conOut from this point on. It messes up the MMap.
+	UINTN                   MemoryMapSize = 0;
 	EFI_MEMORY_DESCRIPTOR*  MemoryMap = NULL;
 	UINTN                   MapKey;
 	UINTN                   DescriptorSize;
@@ -154,8 +154,8 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	bi.MMapDescriptorSize    = DescriptorSize;
 	bi.rsdp                  = tempRSDP;
 	
-    UINT8* loader = (UINT8*)OSBuffer;
-    void (*LoaderFileBin)(BLOCKINFO*) = ((__attribute__((ms_abi)) void (*)(BLOCKINFO*) ) &loader[ENTRY_POINT]);
+	UINT8* loader = (UINT8*)OSBuffer;
+	void (*LoaderFileBin)(BLOCKINFO*) = ((__attribute__((ms_abi)) void (*)(BLOCKINFO*) ) &loader[ENTRY_POINT]);
 	
 	// Exit EFI here.
 	SystemTable->BootServices->ExitBootServices(ImageHandle, MapKey);
@@ -168,6 +168,6 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	conOut->OutputString(conOut, u"If you see this, then something went wrong.\r\n");
 	SystemTable->BootServices->WaitForEvent(1, &event, &index);
 	
-    return EFI_SUCCESS;
+	return EFI_SUCCESS;
 }
 
