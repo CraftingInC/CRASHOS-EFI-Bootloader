@@ -154,6 +154,40 @@ void ReadFile(CHAR16* FileName)  // NOTE : This auto-closes the file.
 	}
 }
 
+unsigned long long strlen(const char* str)
+{
+	const char* strCount = str;
+
+	while (*strCount++);
+	return strCount - str - 1;
+}
+
+int m_strcmp(char* a, char* b)
+{
+	int length = strlen(a);
+	for(unsigned int i = 0; i < length; i++)
+	{
+		if(a[i] > b[i]){return  1;}
+		if(a[i] < b[i]){return -1;}
+	}
+	return 0;
+}
+
+UINT64 CompareGuid(EFI_GUID* guid1, EFI_GUID* guid2)  // Might need fixing, I am not sure yet.
+{
+	// I originally got this from the GNU-EFI
+	UINT32 *g1, *g2;
+	UINT64 r = 0;
+	g1 = (UINT32*) guid1;
+	g2 = (UINT32*) guid2;
+	r  = g1[0] - g2[0];
+	r |= g1[1] - g2[1];
+	r |= g1[2] - g2[2];
+	r |= g1[3] - g2[3];
+
+	return r;
+}
+
 /*
 #define ORANGE 0xffffa500
 

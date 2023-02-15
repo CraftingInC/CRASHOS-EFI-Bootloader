@@ -73,6 +73,7 @@ typedef uint16_t          UINT16;
 typedef uint32_t          UINT32;
 typedef uint64_t          UINT64;
 typedef int32_t           INT32;
+typedef long long         INTN;
 typedef uint64_t          UINTN;
 typedef uint_least16_t    CHAR16;
 typedef bool              BOOLEAN;
