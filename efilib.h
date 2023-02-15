@@ -1,3 +1,7 @@
+
+// Craftin_In_C (2023)
+// GITHUB : https://github.com/CraftingInC/CRASHOS-EFI-Bootloader
+
 #ifndef EFILIB_H
 #define EFILIB_H
 

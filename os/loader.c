@@ -1,4 +1,7 @@
 
+// Craftin_In_C (2023)
+// GITHUB : https://github.com/CraftingInC/CRASHOS-EFI-Bootloader
+
 #include <stdint.h>
 
 #define ORANGE 0xffffa500
