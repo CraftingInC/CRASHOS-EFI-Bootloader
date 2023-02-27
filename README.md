@@ -7,7 +7,9 @@ https://github.com/CraftingInC/UEFI-GPT-image-creator
   
   
 **STATUS**  
-    This code is setup for a loader / kernel to begin it's development. RSDP has been added to access hardware. The GDT is called from within the EFI file itself, AFTER the Exit Boot Services has been called. I made this on a whim, but I will not be continuing it do to my goals have changed.   
+    This code is setup for a loader / kernel to begin it's development. RSDP has been added to access hardware. The GDT is called from within the EFI file itself, AFTER the Exit Boot Services has been called.  
+	
+	I have tested this on QEMU, VirtualBox and on my physical laptop. Works exactly the same on all three.  
   
   
   
