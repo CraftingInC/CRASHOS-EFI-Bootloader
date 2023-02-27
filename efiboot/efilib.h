@@ -1,5 +1,5 @@
 
-// Craftin_In_C (2023)
+// TorakTu (2023)
 // GITHUB : https://github.com/CraftingInC/CRASHOS-EFI-Bootloader
 
 #ifndef EFILIB_H
@@ -37,10 +37,31 @@ typedef struct BLOCKINFO
 
 struct BLOCKINFO bi;
 
-void itoa(unsigned long int n, unsigned short int* buffer, int basenumber)
+void itoa64(uint64_t n, unsigned short int* buffer, uint32_t basenumber)
 {
-	unsigned long int hold;
-	int i, j;
+	uint64_t hold;
+	int32_t i, j;
+	hold = n;
+	i = 0;
+	
+	do{
+		hold = n % basenumber;
+		buffer[i++] = (hold < 10) ? (hold + '0') : (hold + 'a' - 10);
+	} while(n /= basenumber);
+	buffer[i--] = 0;
+	
+	for(j = 0; j < i; j++, i--)
+	{
+		hold = buffer[j];
+		buffer[j] = buffer[i];
+		buffer[i] = hold;
+	}
+}
+
+void itoa32(uint32_t n, unsigned short int* buffer, int basenumber)
+{
+	uint32_t hold;
+	int32_t i, j;
 	hold = n;
 	i = 0;
 	do {
@@ -137,11 +158,11 @@ void ReadFile(CHAR16* FileName)  // NOTE : This auto-closes the file.
 				p3 = *test;
 				test += 1;
 				p4 = *test;
-				// ENTRY_POINT = (p4 << 24) | (p3 << 16) | (p2 << 8) | p1;
+				ENTRY_POINT = (p4 << 24) | (p3 << 16) | (p2 << 8) | p1;
 				//ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x46;   // -O1 Optimization
 				//ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x78;   // -O2 Optimization   This will not work. 
 				                                                                     //     But compiling anyhow to prove that it doesn't work.
-				ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x70;     // -O3 Optimization   Oddly, this works.
+				//ENTRY_POINT = ((p4 << 24) | (p3 << 16) | (p2 << 8) | p1) + 0x70;     // -O3 Optimization   Oddly, this works.
 			} else {
 				ENTRY_POINT = 0;
 				conOut->OutputString(conOut, u"ERROR : Unable to find the 8664 ENTRY_POINT.\r\n");

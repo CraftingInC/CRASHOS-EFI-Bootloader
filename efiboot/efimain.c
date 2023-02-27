@@ -1,5 +1,5 @@
 
-// Craftin_In_C (2023)
+// TorakTu (2023)
 // GITHUB : https://github.com/CraftingInC/CRASHOS-EFI-Bootloader
 
 #include "efi.h"
@@ -113,12 +113,12 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 			conOut->SetAttribute(conOut, EFI_WHITE);
 			conOut->OutputString(conOut, u"Found RSD PTR -->  ");
 			tempRSDP = (void*)configTable->VendorTable;
-			INTN r = CompareGuid(&configTable[index].VendorGuid, &EFI_ACPI_20_TABLE_GUID);
-			UINT16 GOPINFO[12];
+			UINT64 r = CompareGuid(&configTable[index].VendorGuid, &EFI_ACPI_20_TABLE_GUID);
+			UINT16 GOPINFO[32] = {'\0'};
 			conOut->SetAttribute(conOut, EFI_CYAN);
 			conOut->OutputString(conOut, u"RESULT : ");
 			conOut->SetAttribute(conOut, EFI_YELLOW);
-			itoa(r, GOPINFO, 10);
+			itoa64(r, GOPINFO, 10);
 			conOut->OutputString(conOut, GOPINFO);
 			conOut->OutputString(conOut, u"\r\n");
 		}
