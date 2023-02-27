@@ -103,7 +103,7 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	conOut->OutputString(conOut, u"Grabbing RSDP ...\r\n");
 
 	EFI_CONFIGURATION_TABLE* configTable = SystemTable->ConfigurationTable;
-	unsigned long long* tempRSDP = NULL;
+	uint64_t tempRSDP = 0;
 	for(UINTN index = 0; index < SystemTable->NumberOfTableEntries; index++)
 	{
 		if((CompareGuid(&configTable[index].VendorGuid, &EFI_ACPI_20_TABLE_GUID)) && (m_strcmp((char*)"RSD PTR ", (char*)configTable->VendorTable) == 0))
@@ -112,13 +112,14 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 			conOut->OutputString(conOut, u"Found EFI_ACPI_20_TABLE_GUID --->  ");
 			conOut->SetAttribute(conOut, EFI_WHITE);
 			conOut->OutputString(conOut, u"Found RSD PTR -->  ");
-			tempRSDP = (void*)configTable->VendorTable;
-			UINT64 r = CompareGuid(&configTable[index].VendorGuid, &EFI_ACPI_20_TABLE_GUID);
+			tempRSDP = (uint64_t)configTable->VendorTable;
+		//	UINT64 r = CompareGuid(&configTable[index].VendorGuid, &EFI_ACPI_20_TABLE_GUID);
 			UINT16 GOPINFO[32] = {'\0'};
 			conOut->SetAttribute(conOut, EFI_CYAN);
 			conOut->OutputString(conOut, u"RESULT : ");
 			conOut->SetAttribute(conOut, EFI_YELLOW);
-			itoa64(r, GOPINFO, 10);
+			conOut->OutputString(conOut, u"0x");
+			itoa64(*(uint64_t*)&tempRSDP, GOPINFO, 16);
 			conOut->OutputString(conOut, GOPINFO);
 			conOut->OutputString(conOut, u"\r\n");
 		}
@@ -152,7 +153,7 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	bi.MMap                  = MemoryMap;
 	bi.MMapSize              = MemoryMapSize;
 	bi.MMapDescriptorSize    = DescriptorSize;
-	bi.rsdp                  = tempRSDP;
+	bi.rsdp                  = (uint64_t*)tempRSDP;
 	
 	UINT8* loader = (UINT8*)OSBuffer;
 	void (*LoaderFileBin)(BLOCKINFO*) = ((__attribute__((ms_abi)) void (*)(BLOCKINFO*) ) &loader[ENTRY_POINT]);
