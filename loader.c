@@ -106,7 +106,6 @@ void main(BLOCKINFO* bi)
 	
 	textPos->X += 164;
 
-    //int o1 = 0;
     uint8_t pTr1[1024] = {'\0'};
 	itoa64(*(uint64_t*)&TotalRam, pTr1, DECIMAL);
 	uint8_t* test1 = pTr1;
@@ -115,12 +114,9 @@ void main(BLOCKINFO* bi)
 		uint8_t j1 = *test1;
 		if(j1 == '\0')
 		{
-			//o1++;
-			//if(o1 > 1){break;}
 			break;
 		} else 
 		{
-			//o1 = 0;
 			textPos->X += 16;
 		}
 		Print(&j1, textPos->X, textPos->Y, 2, WHITE);
@@ -145,7 +141,6 @@ void main(BLOCKINFO* bi)
 
     textPos->X += 16;
 
-    //int o2 = 0;
     uint8_t pTr2[1024] = {'\0'};
 	itoa64(*(uint64_t*)&biStruct->rsdp, pTr2, HEX);
 	uint8_t* test2 = pTr2;
@@ -154,12 +149,9 @@ void main(BLOCKINFO* bi)
 		uint8_t j2 = *test2;
 		if(j2 == '\0')
 		{
-			//o2++;
-			//if(o2 > 1){break;}
 			break;
 		} else 
 		{
-			//o2 = 0;
 			textPos->X += 16;
 		}
 		Print(&j2, textPos->X, textPos->Y, 2, WHITE);
