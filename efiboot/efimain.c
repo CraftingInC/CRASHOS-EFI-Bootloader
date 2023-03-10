@@ -127,7 +127,7 @@ EFI_STATUS efi_main(EFI_HANDLE IH, EFI_SYSTEM_TABLE *ST)
 	}
 
 	conOut->SetAttribute(conOut, EFI_BROWN);
-	conOut->OutputString(conOut, u"\r\nNOTE : Only the last RSDP is saved. It MIGHT be a problem.\r\n\r\n");
+	conOut->OutputString(conOut, u"\r\nNOTE : Only the last RSDP is saved.\r\n\r\n");
 	conOut->SetAttribute(conOut, EFI_GREEN);
 	conOut->OutputString(conOut, u"Grabbing MMAP ...\r\n");
 
